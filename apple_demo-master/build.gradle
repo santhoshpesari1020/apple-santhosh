@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+  dependencies {
+    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.+'
+  }
+
+}
+
+allprojects {
+    
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.artifactory'
+    
+    group = 'com.test'
+    version = 'art-plugin-runtimeonly-SNAPSHOT'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    
+    publishing {
+         publications {
+             mavenJava(MavenPublication) {
+             from components.java
+             }
+           }
+    }
+    artifactory {
+        publish {
+            defaults {
+                publications('mavenJava')
+                }
+            }
+        }
+}
+
